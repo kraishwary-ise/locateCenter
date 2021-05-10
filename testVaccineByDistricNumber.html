@@ -1,0 +1,97 @@
+<html>
+    <title>LocatorByDistrict</title>
+<body>
+
+
+<h1>Find Center</h1>
+
+
+<script>
+
+document.addEventListener('contextmenu', event => event.preventDefault());
+//var pincodes = ["791002"];
+//var dateArr = ["10-05-2021"];
+var trialCounter = 1;
+var dist = prompt("Please enter your District id(get district id on ispecting find by district on cowin portal");
+var age=prompt("Please enter your age id");
+var monthNames = [ "01", "02", "03", "04", "05", "06",
+    "07", "08", "09", "10", "11", "12" ];
+    var today = new Date();
+    var dateArr = []
+    for(i=0;i<7;i++){
+  dateArr[i]=(today.getDate()+i+"-"+monthNames[today.getMonth()]+"-"+today.getFullYear())
+
+}
+console.log(dateArr)
+
+
+
+
+
+const sleepNow = (delay) => new Promise((resolve) => setTimeout(resolve, delay))
+
+function httpGet(theUrl,j)
+{   document.write("Locating Resources ", " ", dist," ",dateArr[j],"<br>")
+
+    
+    var xmlHttp = new XMLHttpRequest();
+    xmlHttp.open( "GET", theUrl, false ); // false for synchronous request
+    xmlHttp.send( null );
+     
+    return xmlHttp.responseText;
+}
+
+async function fetchByPincode() {
+    
+    console.log("dist updated sucessfully")
+
+   
+    
+   
+      for (j=0; j < dateArr.length; j++) {
+        //url = "https://cdn-api.co-vin.in/api/v2/appointment/sessions/public/calendarByPin?pincode="+pincodes[i]+"&date="+dateArr[j];
+
+        urld="https://cdn-api.co-vin.in/api/v2/appointment/sessions/public/calendarByDistrict?district_id="+dist+"&date="+dateArr[j];
+        
+        await sleepNow(3000);
+        a = httpGet(urld,j);
+        try {
+          a = JSON.parse(a)
+        } catch(e) {
+          continue;
+        }
+
+
+        for (c in a.centers) {
+            
+        for (s in a.centers[c].sessions) {
+           
+            console.log("Looking for Pincode",a.centers[c].pincode,"\n")
+            console.clear
+              if (a.centers[c].sessions[s].min_age_limit < age && a.centers[c].sessions[s].available_capacity > 0) {
+                  document.write("<h1>Available vaccination</h1>")
+
+                document.write("Trying Booking for ", a.centers[c].pincode, a.centers[c].name," Capacity  ", a.centers[c].sessions[s].available_capacity," date: "+dateArr[j]);
+                document.write("<br>")
+                document.write("<br>")
+                var audio = new Audio('https://media.geeksforgeeks.org/wp-content/uploads/20190531135120/beep.mp3');
+                audio.play();
+              }
+          }
+          document.write("")
+        }
+      }
+    
+    await sleepNow(10000);
+    fetchByPincode();
+}
+
+console.log('Script Initialising');
+fetchByPincode();
+
+document.write("My JavaScript");
+</script>
+
+</body>
+<footer>by aishwary</footer>
+</html>

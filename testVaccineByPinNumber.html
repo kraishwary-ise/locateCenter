@@ -1,0 +1,86 @@
+<html>
+<body>
+
+<h1>Track Your Vaccination</h1>
+
+
+<script>
+
+
+var pincode = prompt("ENTER PIN CODE");
+var pincodes=[]
+pincodes[0]=pincode
+var age=prompt("Please enter your age Group(45 or 60)");
+var monthNames = [ "01", "02", "03", "04", "05", "06",
+    "07", "08", "09", "10", "11", "12" ];
+    var today = new Date();
+    var dateArr = []
+var dateArr = []
+var date1 = prompt("Please enter date.", today.getDate()+1+"-"+monthNames[today.getMonth()]+"-"+today.getFullYear());
+dateArr[0]=date1;
+var trialCounter = 0;
+
+const sleepNow = (delay) => new Promise((resolve) => setTimeout(resolve, delay))
+
+function httpGet(theUrl)
+{   document.write("Locating Resources ", " ", pincode," ",trialCounter++,"<br>")
+
+    
+    var xmlHttp = new XMLHttpRequest();
+    xmlHttp.open( "GET", theUrl, false ); // false for synchronous request
+    xmlHttp.send( null );
+     
+    return xmlHttp.responseText;
+}
+
+async function fetchByPincode() {
+   
+    for(i =0;i<pincodes.length;i++){
+    
+      for (j=0; j < dateArr.length; j++) {
+        url = "https://cdn-api.co-vin.in/api/v2/appointment/sessions/public/calendarByPin?pincode="+pincodes[i]+"&date="+dateArr[j];
+        
+        await sleepNow(1100);
+        a = httpGet(url);
+        try {
+          a = JSON.parse(a)
+        } catch(e) {
+          continue;
+        }
+
+        for (c in a.centers) {
+        for (s in a.centers[c].sessions) {
+            console.log("Looking for Pincode",a.centers[c].pincode,"\n")
+            console.clear
+              if (a.centers[c].sessions[s].min_age_limit < age && a.centers[c].sessions[s].available_capacity > 0) {
+                  document.write("<h1>Available vaccination</h1>")
+
+                document.write("Trying Booking for ", a.centers[c].pincode, a.centers[c].name," Capacity  ", a.centers[c].sessions[s].available_capacity," date: "+date1);
+                document.write("<br>")
+                document.write("<br>")
+                var audio = new Audio('https://media.geeksforgeeks.org/wp-content/uploads/20190531135120/beep.mp3');
+                audio.play();
+              }
+          }
+          document.write("")
+        }
+      }
+    
+    await sleepNow(10000);
+    fetchByPincode();
+}
+}
+console.log('Script Initialising');
+fetchByPincode();
+
+document.write("My JavaScript");
+</script>
+<div >
+
+    <script>
+
+        document.write("pincode: ",pincode," date: ",dateArr," Age ",age)
+    </script>
+</div>
+</body>
+</html>
