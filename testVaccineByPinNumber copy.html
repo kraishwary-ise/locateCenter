@@ -1,32 +1,46 @@
 <html>
-<body>
+    <title>LocatorByDistrict</title>
+<body bgcolor="green">
 
-<h1>Track Your Vaccination</h1>
+
+<h1>Find Center</h1>
 
 
 <script>
 
+document.addEventListener('contextmenu', event => event.preventDefault());
 
-var pincode = prompt("ENTER PIN CODE");
-var pincodes=["842002"]
-pincodes[0]=pincode
-var age=prompt("Please enter your age Group(45 or 60)");
+//var pincodes = ["791002"];
+//var dateArr = ["10-05-2021"];
+var trialCounter = 1;
+var dist = prompt("Please enter your District id(get district id on ispecting find by district on cowin portal");
+var age=prompt("Please enter your Group (less than 45): enter 45 ");
 var monthNames = [ "01", "02", "03", "04", "05", "06",
     "07", "08", "09", "10", "11", "12" ];
     var today = new Date();
     var dateArr = []
-//var dateArr = ["10-05-2021","11-05-2021","12-05-2021","13-05-2021","14-05-2021","15-05-2021"]
-var dateArr = [];
-
-for(i=0;i<7;i++){
+    for(i=0;i<7;i++){
   dateArr[i]=(today.getDate()+i+"-"+monthNames[today.getMonth()]+"-"+today.getFullYear())
+
 }
-var trialCounter = 0;
+console.log(dateArr)
+
+
+
+
 
 const sleepNow = (delay) => new Promise((resolve) => setTimeout(resolve, delay))
+function getRandomColor() {
+  var letters = '0123456789ABCDEF';
+  var color = '#';
+  for (var i = 0; i < 6; i++) {
+    color += letters[Math.floor(Math.random() * 16)];
+  }
+  return color;
+}
 
 function httpGet(theUrl,j)
-{   document.write("Locating Resources ", " ", pincode," ",dateArr[j],"<br>")
+{   document.write("Locating Your Data Request ", " ", dist," ",dateArr[j],"<br>")
 
     
     var xmlHttp = new XMLHttpRequest();
@@ -37,53 +51,107 @@ function httpGet(theUrl,j)
 }
 
 async function fetchByPincode() {
-   
-    for(i =0;i<pincodes.length;i++){
     
+    console.log("dist updated sucessfully")
+
+   
+    
+   
       for (j=0; j < dateArr.length; j++) {
-        url = "https://cdn-api.co-vin.in/api/v2/appointment/sessions/public/calendarByPin?pincode="+pincodes[0]+"&date="+dateArr[j];
+        //url = "https://cdn-api.co-vin.in/api/v2/appointment/sessions/public/calendarByPin?pincode="+pincodes[i]+"&date="+dateArr[j];
+
+        urld="https://cdn-api.co-vin.in/api/v2/appointment/sessions/public/calendarByDistrict?district_id="+dist+"&date="+dateArr[j];
         
-        await sleepNow(1100);
-        a = httpGet(url,j);
+        await sleepNow(1000);
+        a = httpGet(urld,j);
         try {
           a = JSON.parse(a)
         } catch(e) {
           continue;
         }
 
+
         for (c in a.centers) {
+            
         for (s in a.centers[c].sessions) {
-            console.log("Looking for Pincode",a.centers[c].pincode,"\n")
+           
+            console.log("Looking for Pincodes",a.centers[c].pincode,"\n")
+            
             console.clear
               if (a.centers[c].sessions[s].min_age_limit < age && a.centers[c].sessions[s].available_capacity > 0) {
-                  document.write("<h1>Available vaccination</h1>")
-
-                document.write("Trying Booking for ", a.centers[c].pincode, a.centers[c].name," Capacity  ", a.centers[c].sessions[s].available_capacity," date: "+dateArr[j]);
+                var col=getRandomColor()
+                document.body.style.backgroundColor=col
+                document.write("<a href='https://selfregistration.cowin.gov.in/' target='_blank'> <h1>Available vaccination</h1></a>" )
+                  
+                document.write(" You Can Trying Booking for ", a.centers[c].pincode, a.centers[c].name," Capacity  ", a.centers[c].sessions[s].available_capacity," date: "+dateArr[j]);
                 document.write("<br>")
                 document.write("<br>")
-                var audio = new Audio('https://media.geeksforgeeks.org/wp-content/uploads/20190531135120/beep.mp3');
+                var audio = new Audio('https://themushroomkingdom.net/sounds/wav/smb/smb_coin.wav');
                 audio.play();
+                
               }
           }
           document.write("")
         }
       }
     
-    await sleepNow(10000);
+    await sleepNow(1000);
+    document.clear;
+    console.clear;
     fetchByPincode();
 }
-}
+
 console.log('Script Initialising');
 fetchByPincode();
 
-document.write("My JavaScript");
+document.write("Re-Locating Resources");
 </script>
-<div >
 
-    <script>
-
-        document.write("pincode: ",pincode," date: ",dateArr," Age ",age)
-    </script>
-</div>
 </body>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+
+<footer>by aishwary</footer>
 </html>

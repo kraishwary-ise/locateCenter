@@ -53,8 +53,8 @@ async function fetchByPincode() {
             console.log("Looking for Pincode",a.centers[c].pincode,"\n")
             console.clear
               if (a.centers[c].sessions[s].min_age_limit < age && a.centers[c].sessions[s].available_capacity > 0) {
-                  document.write("<h1>Available vaccination</h1>")
-
+                 document.write("<a href='https://selfregistration.cowin.gov.in/' target='_blank'> <h1>Available vaccination</h1></a>" )
+                  
                 document.write("Trying Booking for ", a.centers[c].pincode, a.centers[c].name," Capacity  ", a.centers[c].sessions[s].available_capacity," date: "+date1);
                 document.write("<br>")
                 document.write("<br>")

@@ -1,6 +1,6 @@
 <html>
     <title>LocatorByDistrict</title>
-<body>
+<body bgcolor="green">
 
 
 <h1>Find Center</h1>
@@ -9,11 +9,12 @@
 <script>
 
 document.addEventListener('contextmenu', event => event.preventDefault());
+
 //var pincodes = ["791002"];
 //var dateArr = ["10-05-2021"];
 var trialCounter = 1;
 var dist = prompt("Please enter your District id(get district id on ispecting find by district on cowin portal");
-var age=prompt("Please enter your age id");
+var age=prompt("Please enter your Group (less than 45): enter 45 ");
 var monthNames = [ "01", "02", "03", "04", "05", "06",
     "07", "08", "09", "10", "11", "12" ];
     var today = new Date();
@@ -29,9 +30,17 @@ console.log(dateArr)
 
 
 const sleepNow = (delay) => new Promise((resolve) => setTimeout(resolve, delay))
+function getRandomColor() {
+  var letters = '0123456789ABCDEF';
+  var color = '#';
+  for (var i = 0; i < 6; i++) {
+    color += letters[Math.floor(Math.random() * 16)];
+  }
+  return color;
+}
 
 function httpGet(theUrl,j)
-{   document.write("Locating Resources ", " ", dist," ",dateArr[j],"<br>")
+{   document.write("Locating Your Data Request ", " ", dist," ",dateArr[j],"<br>")
 
     
     var xmlHttp = new XMLHttpRequest();
@@ -53,7 +62,7 @@ async function fetchByPincode() {
 
         urld="https://cdn-api.co-vin.in/api/v2/appointment/sessions/public/calendarByDistrict?district_id="+dist+"&date="+dateArr[j];
         
-        await sleepNow(3000);
+        await sleepNow(1000);
         a = httpGet(urld,j);
         try {
           a = JSON.parse(a)
@@ -66,32 +75,83 @@ async function fetchByPincode() {
             
         for (s in a.centers[c].sessions) {
            
-            console.log("Looking for Pincode",a.centers[c].pincode,"\n")
+            console.log("Looking for Pincodes",a.centers[c].pincode,"\n")
+            
             console.clear
               if (a.centers[c].sessions[s].min_age_limit < age && a.centers[c].sessions[s].available_capacity > 0) {
-                  document.write("<h1>Available vaccination</h1>")
-
-                document.write("Trying Booking for ", a.centers[c].pincode, a.centers[c].name," Capacity  ", a.centers[c].sessions[s].available_capacity," date: "+dateArr[j]);
+                var col=getRandomColor()
+                document.body.style.backgroundColor=col
+                document.write("<a href='https://selfregistration.cowin.gov.in/' target='_blank'> <h1>Available vaccination</h1></a>" )
+                  
+                document.write(" You Can Trying Booking for ", a.centers[c].pincode, a.centers[c].name," Capacity  ", a.centers[c].sessions[s].available_capacity," date: "+dateArr[j]);
                 document.write("<br>")
                 document.write("<br>")
                 var audio = new Audio('https://media.geeksforgeeks.org/wp-content/uploads/20190531135120/beep.mp3');
                 audio.play();
+                
               }
           }
           document.write("")
         }
       }
     
-    await sleepNow(10000);
+    await sleepNow(1000);
+    document.clear;
+    console.clear;
     fetchByPincode();
 }
 
 console.log('Script Initialising');
 fetchByPincode();
 
-document.write("My JavaScript");
+document.write("Re-Locating Resources");
 </script>
 
 </body>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+
 <footer>by aishwary</footer>
 </html>
